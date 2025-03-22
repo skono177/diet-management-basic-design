@@ -1,0 +1,55 @@
+@startuml page transition
+skin rose
+hide empty description
+skinparam state {
+  BackgroundColor<<MODAL>> orange
+  BackgroundColor<<GLOBAL>> #cccccc
+}
+
+state "ホーム" as home
+state "ログイン" as login
+state "パスワードリマインド" as reminder<<MODAL>>
+state "ヘッダー" as header<<GLOBAL>>
+state "サイドメニュー" as sideMenu<<GLOBAL>>
+state "利用規約" as terms<<MODAL>>
+state "メール送信" as sendMail
+state "ユーザー登録" as userRegister
+state "ユーザー登録確認" as registerUserConfirm<<MODAL>>
+state "ユーザー登録完了" as registerUserCompleate<<MODAL>>
+state "ダッシュボード" as dashboard
+state "登録済み食事一覧" as registeredMenuList
+state "食事登録" as menuRegister
+state "食事詳細" as menuDetail
+state "メニュー検索" as menuSearch
+state "登録済み食事選択" as registeredMenuSelect
+state "食事登録確認" as registerMenuConfirm<<MODAL>>
+state "食事登録完了" as registerMenuCompleate<<MODAL>>
+
+[*] --> home: URLアクセス
+home --> login: 未ログイン
+home --> dashboard: ログイン済
+login --> dashboard: ログイン
+login --> terms: 新規登録
+login --> reminder: パスワード再設定
+terms --> sendMail: 同意
+terms --> login: 同意しない
+sendMail --> [*]: ユーザー仮登録メール送信
+[*] --> userRegister: 仮登録メールURLアクセス
+userRegister --> registerUserConfirm: 登録
+registerUserConfirm --> registerUserCompleate: 登録
+registerUserConfirm --> userRegister: 修正
+registerUserCompleate --> dashboard: OK
+header --> login: ログアウト
+header --> dashboard: サービスアイコン
+sideMenu --> registeredMenuList: 食事一覧
+sideMenu --> menuRegister: 食事登録
+registeredMenuList --> menuDetail: 食事一覧要素
+menuRegister --> registerMenuConfirm: 登録
+registerMenuConfirm --> registerMenuCompleate: 登録
+registerMenuConfirm --> menuRegister: 修正
+registerMenuCompleate --> registeredMenuList: OK
+menuRegister --> menuSearch: メニュー検索
+menuRegister --> registeredMenuSelect: 登録済みの食事を選択
+menuSearch --> menuRegister: メニュー追加
+registeredMenuSelect--> menuRegister: メニュー追加
+@enduml
