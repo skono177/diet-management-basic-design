@@ -1,0 +1,228 @@
+# yaml-language-server: $schema=https://json-schema.org/draft/2020-12/schema
+openapi: "3.0.3"
+
+info:
+  title: 食事情報関連 API 仕様書
+  description: 食事情報関連 API の使用を記載する。
+  version: 0.0.1
+servers:
+  - url: https://{host}:{port}/api/v0
+    description: 基盤環境用 API
+    variables:
+      host:
+        default: xxx
+      port:
+        default: 'yyyy'
+  - url: http://{host}:{port}/api/v0
+    description: 開発用
+    variables:
+      host:
+        default: localhost
+      port:
+        default: '8080'
+
+paths:
+
+  /meal:
+    post:
+      operationId: registerMeal
+      summary: 食事情報登録 API
+      description: 食事情報を登録する。
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/register_meal_request'
+      responses:
+        201:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/register_meal_response'
+        400:
+          description: Bad Request
+
+        500:
+          description: Internal Server Error
+
+    get:
+      operationId: getMealList
+      summary: 食事情報一覧取得 API
+      description: 食事情報の一覧を取得する。
+      parameters:
+        - in: query
+          name: register_date_from
+          description: 登録日（from）
+          schema:
+            type: string
+            format: yyyy-MM-dd
+            example: 2025-01-01
+        - in: query
+          name: register_date_to
+          description: 登録日（to）
+          schema:
+            type: string
+            format: yyyy-MM-dd
+            example: 2025-12-31
+        - in: query
+          name: meal_type
+          description: 食事種別　※「,」区切りで複数条件指定が可能
+          schema:
+            type: string
+            example: 1,2,3
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_meal_list_response'
+        400:
+          description: Bad Request
+
+        403:
+          description: Forbidden
+
+        500:
+          description: Internal Server Error
+
+  /meal/{meal_id}:
+    get:
+      operationId: getMealDetail
+      summary: 食事情報詳細取得 API
+      description: 食事情報の詳細を取得する。
+      parameters:
+        - in: path
+          name: meal_id
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_meal_response'
+        400:
+          description: Bad Request
+
+        403:
+          description: Forbidden
+
+        404:
+          description: Not Found
+
+        500:
+          description: Internal Server Error
+
+components:
+  schemas:
+    register_meal_request:
+      description: 食事情報登録リクエスト
+      type: object
+      properties:
+        meal_id:
+          description: 食事ID
+          type: integer
+          example: 1
+        meal_type:
+          description: 食事種別（1:朝食、2:昼食、3:夕食、4:その他）
+          type: integer
+          enum:
+            - 1
+            - 2
+            - 3
+            - 4
+          example: 2
+        calorie:
+          description: カロリー
+          type: number
+          example: 150.5
+        comment:
+          description: コメント
+          type: string
+          example: XXコメント
+        meal_image_file_name:
+          description: 食事画像ファイル名
+          type: string
+        meal_image_file:
+          description: 食事画像ファイルデータ
+          type: string
+          format: binary
+      required:
+        - meal_id
+        - meal_type
+        - calorie
+
+    register_meal_response:
+      description: 食事情報登録レスポンス
+      type: object
+      properties:
+        meal_id:
+          description: 食事ID
+          type: integer
+          example: 1
+
+    get_meal_response:
+      description: 食事情報取得レスポンス
+      type: object
+      properties:
+        meal_id:
+          description: 食事ID
+          type: integer
+          example: 1
+        register_date:
+          description: 登録日
+          type: string
+          format: yyyy-MM-dd
+          example: 2025-01-01
+        meal_type:
+          description: 食事種別（1:朝食、2:昼食、3:夕食、4:その他）
+          type: integer
+          enum:
+            - 1
+            - 2
+            - 3
+            - 4
+          example: 2
+        calorie:
+          description: カロリー
+          type: number
+          example: 150.5
+        comment:
+          description: コメント
+          type: string
+          example: XXコメント
+      required:
+        - meal_id
+    
+    get_meal_list_response:
+      description: 食事情報一覧取得レスポンス
+      properties:
+        total_elements:
+          description: 総件数（検索条件に一致した全データ数）
+          type: integer
+          example: 1000
+        total_pages:
+          description: 総ページ数
+          type: integer
+          example: 50
+        page_number:
+          description: 現在のページ番号（0始まり）
+          type: integer
+          example: 0
+        page_size:
+          description: 1ページあたりの件数
+          type: integer
+          example: 20
+        items: 
+          description: 一覧配列
+          type: array
+          items:
+            $ref: '#/components/schemas/get_meal_response'
+        
+
+
+
