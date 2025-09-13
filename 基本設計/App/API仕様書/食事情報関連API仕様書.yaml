@@ -123,10 +123,6 @@ components:
       description: 食事情報登録リクエスト
       type: object
       properties:
-        meal_id:
-          description: 食事ID
-          type: integer
-          example: 1
         meal_type:
           description: 食事種別（1:朝食、2:昼食、3:夕食、4:その他）
           type: integer
@@ -144,15 +140,11 @@ components:
           description: コメント
           type: string
           example: XXコメント
-        meal_image_file_name:
-          description: 食事画像ファイル名
-          type: string
         meal_image_file:
           description: 食事画像ファイルデータ
           type: string
           format: binary
       required:
-        - meal_id
         - meal_type
         - calorie
 
@@ -195,8 +187,6 @@ components:
           description: コメント
           type: string
           example: XXコメント
-      required:
-        - meal_id
     
     get_meal_list_response:
       description: 食事情報一覧取得レスポンス
