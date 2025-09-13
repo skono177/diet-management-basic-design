@@ -27,8 +27,9 @@ FooterLeft=
 FooterCenter=
 FooterRight=
 ShowPageoutRelation=1
-RDBMSType=6
-RDBMSTypeName=MySQL
+RDBMSType=7
+RDBMSTypeName=PostgreSQL
+CreateFk=1
 CommonField="作成者ID","created_by","CHAR(36)","NOT NULL",,"","",$FFFFFFFF
 CommonField="作成日時","created_at","DATETIME","NOT NULL",,"","",$FFFFFFFF
 CommonField="更新者ID","updated_by","CHAR(36)","NOT NULL",,"","",$FFFFFFFF
@@ -45,7 +46,7 @@ ShowCommonAttributes=1
 BugFixEntityWidth=1
 
 [Entity]
-PName=t_meal
+PName=diet.t_meal
 LName=食事テーブル
 Comment=
 TableInnerOption=
@@ -62,12 +63,12 @@ Field="コメント","comment","VARCHAR(100)",,,"","",$FFFFFFFF,""
 EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
-ModifiedDateTime=20250721112132
+ModifiedDateTime=20250913203620
 Position="MAIN",350,200,307,310
 ZOrder=1
 
 [Entity]
-PName=t_meal_image
+PName=diet.t_mealt_meal_image
 LName=食事画像テーブル
 Comment=
 TableInnerOption=
@@ -80,13 +81,13 @@ Field="食事ID","meal_id","INT","NOT NULL",1,"","",$FFFFFFFF,""
 EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
-ModifiedDateTime=20250608162856
+ModifiedDateTime=20250913203624
 Position="MAIN",850,200,307,310
 ZOrder=2
 
 [Relation]
-Entity1=t_meal
-Entity2=t_meal_image
+Entity1=diet.t_meal
+Entity2=diet.t_mealt_meal_image
 RelationType1=2
 RelationType2=3
 Fields1=meal_id
@@ -106,7 +107,7 @@ TermPos2=R
 ZOrder=3
 
 [Entity]
-PName=t_user
+PName=diet.t_mealt_user
 LName=ユーザーテーブル
 Comment=
 TableInnerOption=
@@ -123,6 +124,6 @@ Field="コメント","comment","VARCHAR(100)",,,"","",$FFFFFFFF,""
 EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
-ModifiedDateTime=20250629095903
+ModifiedDateTime=20250913203628
 Position="MAIN",450,800,307,310
 ZOrder=4
