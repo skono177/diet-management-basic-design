@@ -42,7 +42,10 @@ paths:
                 $ref: '#/components/schemas/register_meal_response'
         400:
           description: Bad Request
-
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_bad_request_response'
         500:
           description: Internal Server Error
 
@@ -80,10 +83,12 @@ paths:
                 $ref: '#/components/schemas/get_meal_list_response'
         400:
           description: Bad Request
-
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_bad_request_response'
         403:
           description: Forbidden
-
         500:
           description: Internal Server Error
 
@@ -107,13 +112,14 @@ paths:
                 $ref: '#/components/schemas/get_meal_response'
         400:
           description: Bad Request
-
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_bad_request_response'
         403:
           description: Forbidden
-
         404:
           description: Not Found
-
         500:
           description: Internal Server Error
 
@@ -134,14 +140,17 @@ components:
           example: 2
         calorie:
           description: カロリー
-          type: number
-          example: 150.5
+          type: integer
+          maximum: 9999
+          minimum: 0
+          example: 150
         comment:
           description: コメント
           type: string
+          maxLength: 100
           example: XXコメント
         meal_image_file:
-          description: 食事画像ファイルデータ
+          description: 食事画像ファイルデータ<br>（ファイル形式：png、jpg、jpeg）
           type: string
           format: binary
       required:
@@ -212,7 +221,29 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/get_meal_response'
-        
 
+    error_bad_request_response:
+      description: エラーレスポンス
+      type: object
+      properties:
+        errors:
+          description:
+          type: array
+          items:
+            $ref: '#/components/schemas/error_bad_request_info'
 
+    error_bad_request_info:
+      description: エラー情報
+      type: object
+      properties:
+        message:
+          description: エラーメッセージ
+          type: string
+          example: xxxx
+        schema:
+          description: エラー項目
+          type: string
+          example: xxxx
+      required:
+        - message
 
