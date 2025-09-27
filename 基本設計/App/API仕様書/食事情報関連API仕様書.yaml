@@ -74,6 +74,22 @@ paths:
           schema:
             type: string
             example: 1,2,3
+        - in: query
+          name: page_size
+          description: 1ページ当たりの件数（未指定の場合：100）
+          schema:
+            type: string
+            minimum: 50
+            maximum: 1000
+            example: 50
+        - in: query
+          name: page_number
+          description: ページ番号（0始まり、未指定の場合：0）
+          schema:
+            type: string
+            minimum: 0
+            maximum: 1000
+            example: 0
       responses:
         200:
           description: Success
@@ -190,8 +206,8 @@ components:
           example: 2
         calorie:
           description: カロリー
-          type: number
-          example: 150.5
+          type: integer
+          example: 150
         comment:
           description: コメント
           type: string
@@ -208,14 +224,14 @@ components:
           description: 総ページ数
           type: integer
           example: 50
-        page_number:
-          description: 現在のページ番号（0始まり）
-          type: integer
-          example: 0
         page_size:
           description: 1ページあたりの件数
           type: integer
           example: 20
+        page_number:
+          description: ページ番号（0始まり）
+          type: integer
+          example: 0
         items: 
           description: 一覧配列
           type: array
