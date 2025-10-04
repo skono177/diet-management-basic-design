@@ -116,6 +116,7 @@ paths:
       parameters:
         - in: path
           name: meal_id
+          description: 食事ID
           required: true
           schema:
             type: string
